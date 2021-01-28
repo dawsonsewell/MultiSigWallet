@@ -1,0 +1,26 @@
+{
+  "name": "MultiSigWallet",
+  "version": "1.0.0",
+  "description": "This is my multiple signature wallet project. It requires the signatures of multiple users to approve ETH transactions held inside of the wallet.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dawsonsewell/MultiSigWallet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dawsonsewell/MultiSigWallet/issues"
+  },
+  "homepage": "https://github.com/dawsonsewell/MultiSigWallet#readme",
+  "dependencies": {
+    "@openzeppelin/test-helpers": "^0.5.10"
+  }
+}
