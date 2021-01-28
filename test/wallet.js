@@ -1,3 +1,4 @@
+const { expectRevert } = require('@openzeppelin/test-helpers');
 const Wallet = artifacts.require('Wallet');
 
 // accounts lets us access 10 ether account addresses with pre-funded ether
@@ -47,8 +48,10 @@ contract("Wallet", (accounts) => {
     }
   );
 
+  // the below test tests for the 'happy path' where the function works as intended
+  // i.e the createTransfer funciton is called by an address present in onlyApprover
   it(
-    'Should create transfers',
+    'Should create transfers', // we are testing the createTransfer function of Wallet.sol
     async () => {
       // starting with the {} it adds where the transfer is being sent from
       // this function creates a transaction receipt so we do not need to
@@ -59,6 +62,7 @@ contract("Wallet", (accounts) => {
       // now we need to verify that our transfer was actually created
       const transfers = await wallet.getTransfers();
       // assert the Transfer array in transfers is the expected length -- which in this case is 1
+      // assert that each attribute of transfers created by the createTransfer function is as expected
       assert(transfers.length === 1);
       assert(transfers[0].id === '0');
       assert(transfers[0].amount === '100');
@@ -68,4 +72,19 @@ contract("Wallet", (accounts) => {
     }
   );
 
+  // when running tests to see if they work. We can test only one 'it'
+  // by running it.only() --> this will speed up testing b/c it will only run the it.only statement and not run the other 'it' statements present in the test truffle file
+  it(
+    'Should NOT create transfer if sender is not approved',
+    async () => {
+      // the accounts[6] will not be present in the onlyApprover array
+      // test if this produces the correct error
+      // the expectRevert function is an easy way to test 'require' funcitons in the smart contract being tested
+      await expectRevert(
+        wallet.createTransfer(100, accounts[5], {from: accounts[6]}),
+        "Sorry, only approvers can use this function"
+      );
+
+    }
+  );
 });
