@@ -25,7 +25,7 @@ contract("Wallet", (accounts) => {
       {
        from: accounts[0],
        to: wallet.address,
-       value: 1000 // this is 1000 wei
+       value: 1000 // this is 1000 wei that is going to sent in the tx
       }
    );
 
@@ -87,4 +87,26 @@ contract("Wallet", (accounts) => {
 
     }
   );
+
+  it('Should increment approvals',
+    async () => {
+      // first we need to create a transfer
+      await wallet.createTransfer(100, accounts[5], {from: accounts[0]});
+      // then we need to approve the transfer by giving the
+      // approveTransfer() function the id of the transfer from
+      // one of the addresses associated with the approvers
+      await wallet.approveTransfer(0, {from: accounts[0]});
+      // then we need to get the transfer to check that approvals are now equal to 1 instead of zero
+      const transfers = await wallet.getTransfers();
+      // we also need to check that all the ether is still in the smart contract account and not sent
+      assert(transfers[0].approvals === '1');
+      // we must also check that the sent status is false b/c to send a tx we need two approvals
+      assert(transfers[0].sent === false);
+      const balance = await web3.eth.getBalance(wallet.address);
+      // since no eth has been sent yet, we should still have the original amount of eth in the wallet.address set in beforeEach --> which is 1000 wei
+      assert(balance === '1000');
+    }
+
+  );
+
 });
