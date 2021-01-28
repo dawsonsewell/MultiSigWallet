@@ -47,4 +47,25 @@ contract("Wallet", (accounts) => {
     }
   );
 
+  it(
+    'Should create transfers',
+    async () => {
+      // starting with the {} it adds where the transfer is being sent from
+      // this function creates a transaction receipt so we do not need to
+      // store the result in a variable like in the previous test
+      // the transfer has to be created by an account address inside
+      // of onlyApprover to be created
+      await wallet.createTransfer(100, accounts[5], {from: accounts[0]});
+      // now we need to verify that our transfer was actually created
+      const transfers = await wallet.getTransfers();
+      // assert the Transfer array in transfers is the expected length -- which in this case is 1
+      assert(transfers.length === 1);
+      assert(transfers[0].id === '0');
+      assert(transfers[0].amount === '100');
+      assert(transfers[0].to === accounts[5]);
+      assert(transfers[0].approvals === '0');
+      assert(transfers[0].sent === false);
+    }
+  );
+
 });
