@@ -25,7 +25,7 @@ contract("Wallet", (accounts) => {
       {
        from: accounts[0],
        to: wallet.address,
-       value: 1000 // this is 1000 wei that is going to sent in the tx
+       value: 1000 // this is 1000 wei that is going to be sent in the tx
       }
    );
 
@@ -107,6 +107,31 @@ contract("Wallet", (accounts) => {
       assert(balance === '1000');
     }
 
+  );
+
+  it('Should send transfer if quorum is reached',
+    async () => {
+      // need to convert account balance to a usable number for js
+      // since eth is converted to wei, we will have trouble dealing with
+      // very large numbers with js so we need to use web3.utils.toBN
+      const balanceBefore = web3.utils.toBN(await web3.eth.getBalance(accounts[6]));
+      assert(web3.utils.isBN(balanceBefore)); // --> when only asserting this line it works
+      await wallet.createTransfer(100, accounts[6], {from: accounts[0]});
+      await wallet.approveTransfer(0, {from: accounts[0]});
+      await wallet.approveTransfer(0, {from: accounts[1]});
+      const balanceAfter = web3.utils.toBN(await web3.eth.getBalance(accounts[6]));
+      // Need to check if the balance after minus the balance before is equal to the transfer amount
+      // the below assertion takes into account gas fees paid by running tests
+      assert(balanceAfter.sub(balanceBefore).toNumber() === 100);;
+      assert(web3.utils.isBN(balanceAfter));
+      const transfers = await wallet.getTransfers();
+      assert(transfers[0].approvals === '2');
+      assert(transfers[0].sent === true);
+
+
+      // const balance = await web3.eth.getBalance(wallet.address);
+      // console.log(balance); // shows the amount of wei left for sending via future transactions
+    }
   );
 
 });
