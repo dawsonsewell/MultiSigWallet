@@ -144,7 +144,7 @@ contract("Wallet", (accounts) => {
     }
   );
 
-  it('should NOT approve transfer if transfer is already sent',
+  it('Should NOT approve transfer if transfer is already sent',
     async () => {
       await wallet.createTransfer(100, accounts[6], {from: accounts[0]});
       await wallet.approveTransfer(0, {from: accounts[0]});
