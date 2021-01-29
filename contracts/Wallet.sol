@@ -31,6 +31,7 @@ contract Wallet {
     // allows one address to approve multiple transactions
     mapping(address => mapping(uint => bool)) public approvals;
 
+
     // both approvers and quorum need initial values so we need a constructor
     constructor(address[] memory _approvers, uint _quorum) public {
         approvers = _approvers;
@@ -76,18 +77,18 @@ contract Wallet {
             to,
             0,
             false
-            ));
+        ));
     }
 
     function approveTransfer(uint id) external onlyApprover() {
         // first check if the tx has been sent -- does not make sense to approve
         // a tx that has already been sent
-        require(transfers[id].sent == false, "Transfer has already been sent");
         // need to check if approver already approved the tx
-        require(approvals[msg.sender][id] == false, "Cannot approve a transfer twice");
+        require(transfers[id].sent == false, "Transfer has already been sent");
+        require(approvals[msg.sender][id] == false, 'Cannot approve transfer twice');
 
         // now we need to set the approval from the msg.sender address to true
-        approvals[msg.sender][id] == true;
+        approvals[msg.sender][id] = true;
 
         // after tx is approved by msg.sender we need to increment the approvals
         // value of the transfers struct array associated with the transfer approval
