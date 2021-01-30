@@ -49,7 +49,7 @@ function App() {
   const createTransfer = transfer => {
     wallet.methods
       .createTransfer(transfer.amount, transfer.to)
-      .send({from: accounts[0]});
+      .send({from: accounts[0], gas: 1000000});
   }
 
   const approveTransfer = transferId => {
