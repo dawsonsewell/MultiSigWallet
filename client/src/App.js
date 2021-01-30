@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     const init = async () => {
       // get web3
-      const web3 = getWeb3();
+      const web3 = await getWeb3();
       // then get accounts created by Ganache
       const accounts = await web3.eth.getAccounts();
       // then get wallet
