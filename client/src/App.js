@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getWeb3, getWallet } from './utils.js';
 import Header from './header.js';
+import NewTransfer from './NewTransfer.js';
 
 function App() {
   const [web3, setWeb3] = useState(undefined);
@@ -36,6 +37,15 @@ function App() {
     init();
   }, []);
 
+  // function takes the transfer object coming from transfer html form in NewTransfer.js
+  // this function is the one that calls the createTransfer funciton of the Wallet.sol smart contract
+  const createTransfer = transfer => {
+    wallet.methods
+      // the createTransfer functions needs the amount being sent and the address being sent to
+      .createTransfer(transfer.amount, transfer.to)
+      .send({from: accounts[0]});
+  }
+
   if(
     typeof web3 === 'undefined'
     || typeof accounts === 'undefined'
@@ -50,6 +60,7 @@ function App() {
     <div>
       MutliSig Dapp
         <Header approvers={approvers} quorum={quorum} />
+        <NewTransfer createTransfer={createTransfer} />
     </div>
   );
 }
