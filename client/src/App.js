@@ -47,7 +47,8 @@ function App() {
   // this function is the one that calls the createTransfer funciton of the Wallet.sol smart contract
         // the createTransfer functions needs the amount being sent and the address being sent to
   const createTransfer = transfer => {
-    wallet.methods.createTransfer(transfer.amount, transfer.to)
+    wallet.methods
+      .createTransfer(transfer.amount, transfer.to)
       .send({from: accounts[0]});
   }
 

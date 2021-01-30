@@ -23,18 +23,18 @@ function NewTransfer({createTransfer}) {
   return (
     <div>
       <h2>Create Transfer</h2>
-      <form onSubmit={(e) => submit(e)}>
+      <form onSubmit={e => submit(e)}>
         <label htmlFor="amount">Amount</label>
         <input
           id="amount"
           type="text"
-          onchange={e => updateTransfer(e, 'amount')}
+          onChange={e => updateTransfer(e,'amount')}
         />
         <label htmlFor="to">To</label>
         <input
           id="to"
           type="text"
-          onchange={e => updateTransfer(e, 'to')}
+          onChange={e => updateTransfer(e, 'to')}
         />
         <button>Submit</button>
       </form>
