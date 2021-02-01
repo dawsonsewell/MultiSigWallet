@@ -1,0 +1,19 @@
+Addresses and private keys generated with: https://vanity-eth.tk/
+
+Need 3 addresses for the approvers of smart contract
+
+Address 1
+Address: 0x3EFAb9bA294848D1d991dfcf1c5a4E418bDF018a
+Private key: b3eeca4f80412bdfbf191e40ce11605fdfaf2f5ff852c69d77dd8fcdb88f36d6
+
+Address 2
+Address: 0x19586619086f9ca29f50daf19208fCf5FddadD86
+Private key: 9d8f258c928bcbd20ef7722a3d42958c83ff488642e22509eb3f37a3cb40d3ee
+
+Address 3
+Address: 0x4edb30f5a07dB2accA628846804531Abfb723f02
+Private key: 7f3e5d84249082834562b381a5d6f55235614ee80f568059df7f8f95ff79a08c
+
+Infura URL to deploy to Kovan test network
+
+https://kovan.infura.io/v3/081ef140c59146798113803f30e7f6f4
